@@ -1,0 +1,101 @@
+{
+  "name": "trae-problems",
+  "displayName": "TraeCursor Problems Viewer",
+  "description": "Localiza os problems e errors do seu projeto e lista para você enviar ao TraeCursor corrigir.",
+  "version": "0.0.1",
+  "publisher": "CopiadordeErros-TraeeCursor",
+  "icon": "images/logo.png",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:trae-problems.showProblems",
+    "onCommand:trae-problems.refreshProblems",
+    "onCommand:trae-problems.copyAllProblems"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "trae-problems.showProblems",
+        "title": "TraeCursor: Mostrar Problemas",
+        "category": "TraeCursor"
+      },
+      {
+        "command": "trae-problems.refreshProblems",
+        "title": "TraeCursor: Atualizar Problemas",
+        "category": "TraeCursor"
+      },
+      {
+        "command": "trae-problems.copyAllProblems",
+        "title": "TraeCursor: Copiar Todos os Problemas",
+        "category": "TraeCursor"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "trae-problems.showProblems",
+          "when": "true"
+        },
+        {
+          "command": "trae-problems.refreshProblems",
+          "when": "true"
+        },
+        {
+          "command": "trae-problems.copyAllProblems",
+          "when": "true"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "trae-problems.showProblems",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "trae-problems.refreshProblems",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "trae-problems.copyAllProblems",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "dev": "npm run esbuild-base -- --sourcemap --watch",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "compile": "npm run esbuild-base -- --sourcemap",
+    "watch": "npm run esbuild-base -- --sourcemap --watch",
+    "package": "npm run esbuild-base -- --minify",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.99.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3",
+    "esbuild": "^0.19.11",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}

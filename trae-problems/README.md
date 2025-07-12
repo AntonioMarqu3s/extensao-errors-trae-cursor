@@ -80,20 +80,6 @@ Gerado em: DD/MM/AAAA HH:MM:SS
 Extensão: Trae Problems Viewer
 ```
 
-## 🛠️ Instalação
-
-### Via VSIX
-1. Baixe o arquivo `trae-problems-0.0.1.vsix`
-2. No VS Code, pressione `Ctrl+Shift+P`
-3. Digite "Extensions: Install from VSIX..."
-4. Selecione o arquivo baixado
-5. Reinicie o VS Code se necessário
-
-### Via Linha de Comando
-```bash
-code --install-extension trae-problems-0.0.1.vsix
-```
-
 ## 🎨 Personalização
 
 A extensão usa as cores do tema ativo do VS Code e se adapta automaticamente aos temas claro e escuro.
@@ -125,8 +111,10 @@ Esta extensão foi desenvolvida para integração com o Trae AI. Para sugestões
 
 ## 📄 Licença
 
-Este projeto é de uso interno para integração com Trae AI.
+Este projeto é de uso interno para integração com Trae AI e Cursor.
 
 ---
 
-**Desenvolvido para facilitar o envio de problemas do VS Code para o Trae AI** 🚀
+**Desenvolvido com ❤️ por @Antonio_Marques para facilitar o envio de problemas do VS Code para o Trae AI** 🚀
+
+*"Criado com carinho e dedicação para tornar a experiência de desenvolvimento mais fluida e produtiva"* ✨

@@ -12,10 +12,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished",
-    "onCommand:trae-problems.showProblems",
-    "onCommand:trae-problems.refreshProblems",
-    "onCommand:trae-problems.copyAllProblems"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {

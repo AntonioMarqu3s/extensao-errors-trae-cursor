@@ -2,9 +2,27 @@
   "name": "trae-problems",
   "displayName": "TraeCursor Problems Viewer",
   "description": "Localiza os problems e errors do seu projeto e lista para você enviar ao TraeCursor corrigir.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "CopiadordeErros-TraeeCursor",
   "icon": "images/logo.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CopiadordeErros-TraeeCursor/trae-problems.git"
+  },
+  "homepage": "https://github.com/CopiadordeErros-TraeeCursor/trae-problems",
+  "bugs": {
+    "url": "https://github.com/CopiadordeErros-TraeeCursor/trae-problems/issues"
+  },
+  "keywords": [
+    "problems",
+    "errors",
+    "debugging",
+    "trae",
+    "cursor",
+    "diagnostics",
+    "vscode"
+  ],
   "engines": {
     "vscode": "^1.99.0"
   },

@@ -1,7 +1,7 @@
-"use strict";var f=Object.create;var m=Object.defineProperty;var x=Object.getOwnPropertyDescriptor;var w=Object.getOwnPropertyNames;var y=Object.getPrototypeOf,C=Object.prototype.hasOwnProperty;var $=(n,e)=>{for(var o in e)m(n,o,{get:e[o],enumerable:!0})},b=(n,e,o,s)=>{if(e&&typeof e=="object"||typeof e=="function")for(let a of w(e))!C.call(n,a)&&a!==o&&m(n,a,{get:()=>e[a],enumerable:!(s=x(e,a))||s.enumerable});return n};var P=(n,e,o)=>(o=n!=null?f(y(n)):{},b(e||!n||!n.__esModule?m(o,"default",{value:n,enumerable:!0}):o,n)),k=n=>b(m({},"__esModule",{value:!0}),n);var E={};$(E,{activate:()=>S,deactivate:()=>D});module.exports=k(E);var t=P(require("vscode")),u=class{panel;context;constructor(e){this.context=e}collectProblems(){let e=new Map;return t.languages.getDiagnostics().forEach(([o,s])=>{let a=o.fsPath,l=s.map(d=>({file:a,line:d.range.start.line+1,column:d.range.start.character+1,message:d.message,severity:d.severity||t.DiagnosticSeverity.Error,source:d.source,code:d.code?.toString()}));l.length>0&&e.set(a,l)}),Array.from(e.entries()).map(([o,s])=>({file:o,problems:s,errorCount:s.filter(l=>l.severity===t.DiagnosticSeverity.Error).length,warningCount:s.filter(l=>l.severity===t.DiagnosticSeverity.Warning).length,infoCount:s.filter(l=>l.severity===t.DiagnosticSeverity.Information).length,hintCount:s.filter(l=>l.severity===t.DiagnosticSeverity.Hint).length})).sort((o,s)=>o.errorCount!==s.errorCount?s.errorCount-o.errorCount:o.file.localeCompare(s.file))}generateHtml(e){let o=e.reduce((r,i)=>r+i.errorCount,0),s=e.reduce((r,i)=>r+i.warningCount,0),a=e.reduce((r,i)=>r+i.infoCount,0),l=e.reduce((r,i)=>r+i.hintCount,0),d=e.map(r=>{let i=r.file.split("\\").pop()||r.file,v=r.problems.map(c=>{let g=this.getSeverityClass(c.severity),h=this.getSeverityIcon(c.severity);return`
+"use strict";var b=Object.create;var v=Object.defineProperty;var w=Object.getOwnPropertyDescriptor;var x=Object.getOwnPropertyNames;var y=Object.getPrototypeOf,C=Object.prototype.hasOwnProperty;var $=(l,o)=>{for(var e in o)v(l,e,{get:o[e],enumerable:!0})},h=(l,o,e,a)=>{if(o&&typeof o=="object"||typeof o=="function")for(let s of x(o))!C.call(l,s)&&s!==e&&v(l,s,{get:()=>o[s],enumerable:!(a=w(o,s))||a.enumerable});return l};var k=(l,o,e)=>(e=l!=null?b(y(l)):{},h(o||!l||!l.__esModule?v(e,"default",{value:l,enumerable:!0}):e,l)),E=l=>h(v({},"__esModule",{value:!0}),l);var S={};$(S,{activate:()=>P,deactivate:()=>D});module.exports=E(S);var r=k(require("vscode")),u=class{panel;context;constructor(o){this.context=o}collectProblems(){let o=new Map;return r.languages.getDiagnostics().forEach(([e,a])=>{let s=e.fsPath,c=a.map(t=>({file:s,line:t.range.start.line+1,column:t.range.start.character+1,message:t.message,severity:t.severity||r.DiagnosticSeverity.Error,source:t.source,code:t.code?.toString()}));c.length>0&&o.set(s,c)}),Array.from(o.entries()).map(([e,a])=>({file:e,problems:a,errorCount:a.filter(c=>c.severity===r.DiagnosticSeverity.Error).length,warningCount:a.filter(c=>c.severity===r.DiagnosticSeverity.Warning).length,infoCount:a.filter(c=>c.severity===r.DiagnosticSeverity.Information).length,hintCount:a.filter(c=>c.severity===r.DiagnosticSeverity.Hint).length})).sort((e,a)=>e.errorCount!==a.errorCount?a.errorCount-e.errorCount:e.file.localeCompare(a.file))}generateHtml(o){let e=o.reduce((n,i)=>n+i.errorCount,0),a=o.reduce((n,i)=>n+i.warningCount,0),s=o.reduce((n,i)=>n+i.infoCount,0),c=o.reduce((n,i)=>n+i.hintCount,0),t=o.map(n=>{let i=n.file.split("\\").pop()||n.file,m=n.problems.map(d=>{let g=this.getSeverityClass(d.severity),f=this.getSeverityIcon(d.severity);return`
 					<div class="problem-item severity-${g}">
 						<div class="problem-line">
-							<input type="checkbox" class="problem-checkbox"> ${h} ${this.escapeHtml(c.message)} - <span class="problem-location">[Ln ${c.line}, Col ${c.column}]</span>
+							<input type="checkbox" class="problem-checkbox"> ${f} ${this.escapeHtml(d.message)} - <span class="problem-location">[Ln ${d.line}, Col ${d.column}]</span>
 						</div>
 					</div>
 				`}).join("");return`
@@ -9,14 +9,14 @@
 					<div class="file-header">
 						<h3 class="file-name">${this.escapeHtml(i)}</h3>
 						<div class="file-stats">
-							${r.errorCount>0?`<span class="stat-error">${r.errorCount} erro${r.errorCount!==1?"s":""}</span>`:""}
-							${r.warningCount>0?`<span class="stat-warning">${r.warningCount} aviso${r.warningCount!==1?"s":""}</span>`:""}
-							${r.infoCount>0?`<span class="stat-info">${r.infoCount} info${r.infoCount!==1?"s":""}</span>`:""}
-							${r.hintCount>0?`<span class="stat-hint">${r.hintCount} dica${r.hintCount!==1?"s":""}</span>`:""}
+							${n.errorCount>0?`<span class="stat-error">${n.errorCount} erro${n.errorCount!==1?"s":""}</span>`:""}
+							${n.warningCount>0?`<span class="stat-warning">${n.warningCount} aviso${n.warningCount!==1?"s":""}</span>`:""}
+							${n.infoCount>0?`<span class="stat-info">${n.infoCount} info${n.infoCount!==1?"s":""}</span>`:""}
+							${n.hintCount>0?`<span class="stat-hint">${n.hintCount} dica${n.hintCount!==1?"s":""}</span>`:""}
 						</div>
 					</div>
 					<div class="problems-list">
-						${v}
+						${m}
 					</div>
 				</div>
 			`}).join("");return`
@@ -123,6 +123,57 @@
 					.copy-btn:active {
 						transform: translateY(0);
 						box-shadow: 0 2px 6px rgba(33, 150, 243, 0.3);
+					}
+
+					.copy-errors-btn {
+						background: linear-gradient(135deg, #f44336, #d32f2f);
+						color: white;
+						box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+					}
+
+					.copy-errors-btn:hover {
+						background: linear-gradient(135deg, #d32f2f, #f44336);
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+					}
+
+					.copy-errors-btn:active {
+						transform: translateY(0);
+						box-shadow: 0 2px 6px rgba(244, 67, 54, 0.3);
+					}
+
+					.copy-warnings-btn {
+						background: linear-gradient(135deg, #ff9800, #f57c00);
+						color: white;
+						box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+					}
+
+					.copy-warnings-btn:hover {
+						background: linear-gradient(135deg, #f57c00, #ff9800);
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+					}
+
+					.copy-warnings-btn:active {
+						transform: translateY(0);
+						box-shadow: 0 2px 6px rgba(255, 152, 0, 0.3);
+					}
+
+					.copy-hints-btn {
+						background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+						color: white;
+						box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3);
+					}
+
+					.copy-hints-btn:hover {
+						background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(156, 39, 176, 0.4);
+					}
+
+					.copy-hints-btn:active {
+						transform: translateY(0);
+						box-shadow: 0 2px 6px rgba(156, 39, 176, 0.3);
 					}
 
 					.action-btn svg {
@@ -317,19 +368,37 @@
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
 								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
 							</svg>
-							<span>Copiar MD</span>
+							<span>\u{1F4CB} Copiar Tudo MD</span>
+						</button>
+						<button id="copyErrorsBtn" class="action-btn copy-errors-btn" title="Copiar apenas erros em formato Markdown">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+							</svg>
+							<span>\u274C Copiar Erros MD</span>
+						</button>
+						<button id="copyWarningsBtn" class="action-btn copy-warnings-btn" title="Copiar apenas avisos em formato Markdown">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+							</svg>
+							<span>\u26A0\uFE0F Copiar Avisos MD</span>
+						</button>
+						<button id="copyHintsBtn" class="action-btn copy-hints-btn" title="Copiar apenas dicas em formato Markdown">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+							</svg>
+							<span>\u{1F4A1} Copiar Dicas MD</span>
 						</button>
 					</div>
 					<div class="summary">
-						${o>0?`<div class="summary-item errors">\u274C ${o} Erro${o!==1?"s":""}</div>`:""}
-						${s>0?`<div class="summary-item warnings">\u26A0\uFE0F ${s} Aviso${s!==1?"s":""}</div>`:""}
-						${a>0?`<div class="summary-item info">\u2139\uFE0F ${a} Informa\xE7\xE3o${a!==1?"\xF5es":""}</div>`:""}
-						${l>0?`<div class="summary-item hints">\u{1F4A1} ${l} Dica${l!==1?"s":""}</div>`:""}
+						${e>0?`<div class="summary-item errors">\u274C ${e} Erro${e!==1?"s":""}</div>`:""}
+						${a>0?`<div class="summary-item warnings">\u26A0\uFE0F ${a} Aviso${a!==1?"s":""}</div>`:""}
+						${s>0?`<div class="summary-item info">\u2139\uFE0F ${s} Informa\xE7\xE3o${s!==1?"\xF5es":""}</div>`:""}
+						${c>0?`<div class="summary-item hints">\u{1F4A1} ${c} Dica${c!==1?"s":""}</div>`:""}
 					</div>
 				</div>
 
 				<div class="problems-container">
-					${e.length>0?d:`
+					${o.length>0?t:`
 						<div class="no-problems">
 							<span class="icon">\u2705</span>
 							<div>Nenhum problema encontrado!</div>
@@ -350,31 +419,110 @@
 					document.getElementById('copyAllBtn')?.addEventListener('click', () => {
 						vscode.postMessage({ command: 'copyAll' });
 					});
+
+					// Bot\xE3o de copiar erros
+					document.getElementById('copyErrorsBtn')?.addEventListener('click', () => {
+						vscode.postMessage({ command: 'copyErrors' });
+					});
+
+					// Bot\xE3o de copiar avisos
+					document.getElementById('copyWarningsBtn')?.addEventListener('click', () => {
+						vscode.postMessage({ command: 'copyWarnings' });
+					});
+
+					// Bot\xE3o de copiar dicas
+					document.getElementById('copyHintsBtn')?.addEventListener('click', () => {
+						vscode.postMessage({ command: 'copyHints' });
+					});
 				</script>
 			</body>
 			</html>
-		`}escapeHtml(e){return e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}getSeverityClass(e){switch(e){case t.DiagnosticSeverity.Error:return"error";case t.DiagnosticSeverity.Warning:return"warning";case t.DiagnosticSeverity.Information:return"info";case t.DiagnosticSeverity.Hint:return"hint";default:return"error"}}getSeverityIcon(e){switch(e){case t.DiagnosticSeverity.Error:return"\u274C";case t.DiagnosticSeverity.Warning:return"\u26A0\uFE0F";case t.DiagnosticSeverity.Information:return"\u2139\uFE0F";case t.DiagnosticSeverity.Hint:return"\u{1F4A1}";default:return"\u274C"}}show(){if(this.panel){this.panel.reveal(t.ViewColumn.One);return}this.panel=t.window.createWebviewPanel("traeProblems","\u{1F50D} Visualizador de Problemas - Trae",t.ViewColumn.One,{enableScripts:!0,retainContextWhenHidden:!0,localResourceRoots:[]}),this.panel.webview.options={enableScripts:!0,localResourceRoots:[]},this.updateContent(),this.panel.webview.onDidReceiveMessage(e=>{switch(e.command){case"refresh":this.updateContent(),t.window.showInformationMessage("\u{1F504} Problemas atualizados!");break;case"copyAll":this.copyAllProblems();break}},void 0,this.context.subscriptions),this.panel.onDidDispose(()=>{this.panel=void 0},void 0,this.context.subscriptions)}updateContent(){if(!this.panel)return;let e=this.collectProblems();this.panel.webview.html=this.generateHtml(e)}copyAllProblems(){let e=this.collectProblems(),o=`# \u{1F4CB} Relat\xF3rio de Problemas - Trae
+		`}escapeHtml(o){return o.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}getSeverityClass(o){switch(o){case r.DiagnosticSeverity.Error:return"error";case r.DiagnosticSeverity.Warning:return"warning";case r.DiagnosticSeverity.Information:return"info";case r.DiagnosticSeverity.Hint:return"hint";default:return"error"}}getSeverityIcon(o){switch(o){case r.DiagnosticSeverity.Error:return"\u274C";case r.DiagnosticSeverity.Warning:return"\u26A0\uFE0F";case r.DiagnosticSeverity.Information:return"\u2139\uFE0F";case r.DiagnosticSeverity.Hint:return"\u{1F4A1}";default:return"\u274C"}}show(){if(this.panel){this.panel.reveal(r.ViewColumn.One);return}this.panel=r.window.createWebviewPanel("traeProblems","\u{1F50D} Visualizador de Problemas - Trae",r.ViewColumn.One,{enableScripts:!0,retainContextWhenHidden:!0,localResourceRoots:[]}),this.panel.webview.options={enableScripts:!0,localResourceRoots:[]},this.updateContent(),this.panel.webview.onDidReceiveMessage(o=>{switch(o.command){case"refresh":this.updateContent(),r.window.showInformationMessage("\u{1F504} Problemas atualizados!");break;case"copyAll":this.copyAllProblems();break;case"copyErrors":this.copyErrorsOnly();break;case"copyWarnings":this.copyWarningsOnly();break;case"copyHints":this.copyHintsOnly();break}},void 0,this.context.subscriptions),this.panel.onDidDispose(()=>{this.panel=void 0},void 0,this.context.subscriptions)}updateContent(){if(!this.panel)return;let o=this.collectProblems();this.panel.webview.html=this.generateHtml(o)}copyAllProblems(){let o=this.collectProblems(),e=`# \u{1F4CB} Relat\xF3rio de Problemas - Trae
 
-`,s=e.reduce((r,i)=>r+i.errorCount,0),a=e.reduce((r,i)=>r+i.warningCount,0),l=e.reduce((r,i)=>r+i.infoCount,0),d=e.reduce((r,i)=>r+i.hintCount,0);o+=`## \u{1F4CA} Resumo Geral
+`,a=o.reduce((n,i)=>n+i.errorCount,0),s=o.reduce((n,i)=>n+i.warningCount,0),c=o.reduce((n,i)=>n+i.infoCount,0),t=o.reduce((n,i)=>n+i.hintCount,0);e+=`## \u{1F4CA} Resumo Geral
 
-`,o+=`- \u{1F534} **Erros:** ${s}
-`,o+=`- \u26A0\uFE0F **Avisos:** ${a}
-`,o+=`- \u2139\uFE0F **Informa\xE7\xF5es:** ${l}
-`,o+=`- \u{1F4A1} **Dicas:** ${d}
-`,o+=`- \u{1F4C1} **Arquivos com problemas:** ${e.length}
+`,e+=`- \u{1F534} **Erros:** ${a}
+`,e+=`- \u26A0\uFE0F **Avisos:** ${s}
+`,e+=`- \u2139\uFE0F **Informa\xE7\xF5es:** ${c}
+`,e+=`- \u{1F4A1} **Dicas:** ${t}
+`,e+=`- \u{1F4C1} **Arquivos com problemas:** ${o.length}
 
-`,e.forEach((r,i)=>{let v=r.file.split("\\").pop()||r.file;o+=`## \u{1F4C1} ${v}
+`,o.forEach((n,i)=>{let m=n.file.split("\\").pop()||n.file;e+=`## \u{1F4C1} ${m}
 
-`,o+=`**Caminho:** \`${r.file}\`
+`,e+=`**Caminho:** \`${n.file}\`
 
-`,o+=`**Estat\xEDsticas:** \u{1F534} ${r.errorCount} | \u26A0\uFE0F ${r.warningCount} | \u2139\uFE0F ${r.infoCount} | \u{1F4A1} ${r.hintCount}
+`,e+=`**Estat\xEDsticas:** \u{1F534} ${n.errorCount} | \u26A0\uFE0F ${n.warningCount} | \u2139\uFE0F ${n.infoCount} | \u{1F4A1} ${n.hintCount}
 
-`,r.problems.forEach(c=>{let g=this.getSeverityIcon(c.severity);o+=`- [ ] ${g} ${c.message} - **Linha ${c.line}, Coluna ${c.column}**`,c.source&&(o+=` [${c.source}]`),c.code&&(o+=` (${c.code})`),o+=`
-`}),o+=`
-`}),o+=`---
+`,n.problems.forEach(d=>{let g=this.getSeverityIcon(d.severity);e+=`- [ ] ${g} ${d.message} - **Linha ${d.line}, Coluna ${d.column}**`,d.source&&(e+=` [${d.source}]`),d.code&&(e+=` (${d.code})`),e+=`
+`}),e+=`
+`}),e+=`---
 
-`,o+=`**\u{1F4C5} Gerado em:** ${new Date().toLocaleString("pt-BR")}
+`,e+=`**\u{1F4C5} Gerado em:** ${new Date().toLocaleString("pt-BR")}
 
-`,o+=`**\u{1F527} Extens\xE3o:** Trae Problems Viewer
+`,e+=`**\u{1F527} Extens\xE3o:** Trae Problems Viewer
 
-`,o+="**\u{1F4CB} Formato:** Checklist Markdown para corre\xE7\xE3o de problemas",t.env.clipboard.writeText(o).then(()=>{t.window.showInformationMessage("\u{1F4CB} Todos os problemas copiados em formato Markdown!")})}},p;function S(n){console.log('\u{1F680} Extens\xE3o "TraeCursor Problems" ativada!'),console.log("\u{1F4CB} Context subscriptions length:",n.subscriptions.length),console.log("\u{1F4C1} Extension path:",n.extensionPath),p=new u(n),console.log("\u2705 ProblemsViewer criado com sucesso"),console.log("\u{1F4DD} Registrando comando: trae-problems.showProblems");let e=t.commands.registerCommand("trae-problems.showProblems",()=>{console.log("\u{1F3AF} Comando showProblems executado!"),p.show()});console.log("\u{1F4DD} Registrando comando: trae-problems.refreshProblems");let o=t.commands.registerCommand("trae-problems.refreshProblems",()=>{console.log("\u{1F504} Comando refreshProblems executado!"),p.updateContent(),t.window.showInformationMessage("\u{1F504} Problemas atualizados!")});console.log("\u{1F4DD} Registrando comando: trae-problems.copyAllProblems");let s=t.commands.registerCommand("trae-problems.copyAllProblems",()=>{console.log("\u{1F4CB} Comando copyAllProblems executado!"),p.copyAllProblems()});console.log("\u{1F4CC} Adicionando comandos \xE0s subscri\xE7\xF5es..."),n.subscriptions.push(e),n.subscriptions.push(o),n.subscriptions.push(s),console.log("\u2705 Comandos adicionados. Total de subscri\xE7\xF5es:",n.subscriptions.length);let a=t.languages.onDidChangeDiagnostics(()=>{p&&p.panel&&p.updateContent()});n.subscriptions.push(a),t.window.showInformationMessage('\u2705 TraeCursor Problems Viewer est\xE1 pronto! Use Ctrl+Shift+T para mostrar problemas ou Ctrl+Shift+P e digite "TraeCursor"')}function D(){console.log('\u{1F44B} Extens\xE3o "TraeCursor Problems" desativada!')}0&&(module.exports={activate,deactivate});
+`,e+="**\u{1F4CB} Formato:** Checklist Markdown para corre\xE7\xE3o de problemas",r.env.clipboard.writeText(e).then(()=>{r.window.showInformationMessage("\u{1F4CB} Todos os problemas copiados em formato Markdown!")})}copyErrorsOnly(){let o=this.collectProblems(),e=`# \u274C Relat\xF3rio de Erros - Trae
+
+`,a=o.reduce((s,c)=>s+c.errorCount,0);if(a===0){r.window.showInformationMessage("\u2705 Nenhum erro encontrado!");return}e+=`## \u{1F4CA} Resumo de Erros
+
+`,e+=`- \u{1F534} **Total de Erros:** ${a}
+`,e+=`- \u{1F4C1} **Arquivos com erros:** ${o.filter(s=>s.errorCount>0).length}
+
+`,o.forEach(s=>{if(s.errorCount===0)return;let c=s.file.split("\\").pop()||s.file;e+=`## \u{1F4C1} ${c}
+
+`,e+=`**Caminho:** \`${s.file}\`
+
+`,e+=`**Erros encontrados:** \u{1F534} ${s.errorCount}
+
+`,s.problems.forEach(t=>{t.severity===r.DiagnosticSeverity.Error&&(e+=`- [ ] \u274C ${t.message} - **Linha ${t.line}, Coluna ${t.column}**`,t.source&&(e+=` [${t.source}]`),t.code&&(e+=` (${t.code})`),e+=`
+`)}),e+=`
+`}),e+=`---
+
+`,e+=`**\u{1F4C5} Gerado em:** ${new Date().toLocaleString("pt-BR")}
+
+`,e+=`**\u{1F527} Extens\xE3o:** Trae Problems Viewer
+
+`,e+="**\u{1F4CB} Formato:** Checklist Markdown - Apenas Erros",r.env.clipboard.writeText(e).then(()=>{r.window.showInformationMessage("\u274C Erros copiados em formato Markdown!")})}copyWarningsOnly(){let o=this.collectProblems(),e=`# \u26A0\uFE0F Relat\xF3rio de Avisos - Trae
+
+`,a=o.reduce((s,c)=>s+c.warningCount,0);if(a===0){r.window.showInformationMessage("\u2705 Nenhum aviso encontrado!");return}e+=`## \u{1F4CA} Resumo de Avisos
+
+`,e+=`- \u26A0\uFE0F **Total de Avisos:** ${a}
+`,e+=`- \u{1F4C1} **Arquivos com avisos:** ${o.filter(s=>s.warningCount>0).length}
+
+`,o.forEach(s=>{if(s.warningCount===0)return;let c=s.file.split("\\").pop()||s.file;e+=`## \u{1F4C1} ${c}
+
+`,e+=`**Caminho:** \`${s.file}\`
+
+`,e+=`**Avisos encontrados:** \u26A0\uFE0F ${s.warningCount}
+
+`,s.problems.forEach(t=>{t.severity===r.DiagnosticSeverity.Warning&&(e+=`- [ ] \u26A0\uFE0F ${t.message} - **Linha ${t.line}, Coluna ${t.column}**`,t.source&&(e+=` [${t.source}]`),t.code&&(e+=` (${t.code})`),e+=`
+`)}),e+=`
+`}),e+=`---
+
+`,e+=`**\u{1F4C5} Gerado em:** ${new Date().toLocaleString("pt-BR")}
+
+`,e+=`**\u{1F527} Extens\xE3o:** Trae Problems Viewer
+
+`,e+="**\u{1F4CB} Formato:** Checklist Markdown - Apenas Avisos",r.env.clipboard.writeText(e).then(()=>{r.window.showInformationMessage("\u26A0\uFE0F Avisos copiados em formato Markdown!")})}copyHintsOnly(){let o=this.collectProblems(),e=`# \u{1F4A1} Relat\xF3rio de Dicas - Trae
+
+`,a=o.reduce((t,n)=>t+n.hintCount,0),s=o.reduce((t,n)=>t+n.infoCount,0);if(a+s===0){r.window.showInformationMessage("\u2705 Nenhuma dica encontrada!");return}e+=`## \u{1F4CA} Resumo de Dicas
+
+`,e+=`- \u{1F4A1} **Total de Dicas:** ${a}
+`,e+=`- \u2139\uFE0F **Total de Informa\xE7\xF5es:** ${s}
+`,e+=`- \u{1F4C1} **Arquivos com sugest\xF5es:** ${o.filter(t=>t.hintCount>0||t.infoCount>0).length}
+
+`,o.forEach(t=>{if(t.hintCount===0&&t.infoCount===0)return;let n=t.file.split("\\").pop()||t.file;e+=`## \u{1F4C1} ${n}
+
+`,e+=`**Caminho:** \`${t.file}\`
+
+`,e+=`**Sugest\xF5es encontradas:** \u{1F4A1} ${t.hintCount} | \u2139\uFE0F ${t.infoCount}
+
+`,t.problems.forEach(i=>{if(i.severity===r.DiagnosticSeverity.Hint||i.severity===r.DiagnosticSeverity.Information){let m=i.severity===r.DiagnosticSeverity.Hint?"\u{1F4A1}":"\u2139\uFE0F";e+=`- [ ] ${m} ${i.message} - **Linha ${i.line}, Coluna ${i.column}**`,i.source&&(e+=` [${i.source}]`),i.code&&(e+=` (${i.code})`),e+=`
+`}}),e+=`
+`}),e+=`---
+
+`,e+=`**\u{1F4C5} Gerado em:** ${new Date().toLocaleString("pt-BR")}
+
+`,e+=`**\u{1F527} Extens\xE3o:** Trae Problems Viewer
+
+`,e+="**\u{1F4CB} Formato:** Checklist Markdown - Apenas Dicas e Informa\xE7\xF5es",r.env.clipboard.writeText(e).then(()=>{r.window.showInformationMessage("\u{1F4A1} Dicas copiadas em formato Markdown!")})}},p;function P(l){console.log('\u{1F680} Extens\xE3o "TraeCursor Problems" ativada!'),console.log("\u{1F4CB} Context subscriptions length:",l.subscriptions.length),console.log("\u{1F4C1} Extension path:",l.extensionPath),p=new u(l),console.log("\u2705 ProblemsViewer criado com sucesso"),console.log("\u{1F4DD} Registrando comando: trae-problems.showProblems");let o=r.commands.registerCommand("trae-problems.showProblems",()=>{console.log("\u{1F3AF} Comando showProblems executado!"),p.show()});console.log("\u{1F4DD} Registrando comando: trae-problems.refreshProblems");let e=r.commands.registerCommand("trae-problems.refreshProblems",()=>{console.log("\u{1F504} Comando refreshProblems executado!"),p.updateContent(),r.window.showInformationMessage("\u{1F504} Problemas atualizados!")});console.log("\u{1F4DD} Registrando comando: trae-problems.copyAllProblems");let a=r.commands.registerCommand("trae-problems.copyAllProblems",()=>{console.log("\u{1F4CB} Comando copyAllProblems executado!"),p.copyAllProblems()});console.log("\u{1F4CC} Adicionando comandos \xE0s subscri\xE7\xF5es..."),l.subscriptions.push(o),l.subscriptions.push(e),l.subscriptions.push(a),console.log("\u2705 Comandos adicionados. Total de subscri\xE7\xF5es:",l.subscriptions.length);let s=r.languages.onDidChangeDiagnostics(()=>{p&&p.panel&&p.updateContent()});l.subscriptions.push(s),r.window.showInformationMessage('\u2705 TraeCursor Problems Viewer est\xE1 pronto! Use Ctrl+Shift+T para mostrar problemas ou Ctrl+Shift+P e digite "TraeCursor"')}function D(){console.log('\u{1F44B} Extens\xE3o "TraeCursor Problems" desativada!')}0&&(module.exports={activate,deactivate});

@@ -63,6 +63,9 @@ nome-do-arquivo.ext
 - [x] **Avisos de activation events corrigidos**: Removidos eventos redundantes, mantendo apenas 'onStartupFinished'
 - [x] **Arquivo VSIX Regenerado**: Nova versão compatível com a loja do VS Code com logo incluída
 - [x] **Erro de Upload Resolvido**: Publisher ID agora corresponde ao registrado no marketplace
+- [x] **Erro Open VSX Registry corrigido**: Adicionados campos obrigatórios (license, repository, homepage, bugs, keywords)
+- [x] **Arquivo LICENSE.md criado**: Licença MIT adicionada ao projeto
+- [x] **Arquivo VSIX final gerado**: Versão 0.0.1 (118.77 KB) com todas as correções aplicadas
 
 ---
 

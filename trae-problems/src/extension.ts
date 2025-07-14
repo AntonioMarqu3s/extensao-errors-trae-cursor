@@ -218,6 +218,57 @@ class ProblemsViewer {
 						box-shadow: 0 2px 6px rgba(33, 150, 243, 0.3);
 					}
 
+					.copy-errors-btn {
+						background: linear-gradient(135deg, #f44336, #d32f2f);
+						color: white;
+						box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+					}
+
+					.copy-errors-btn:hover {
+						background: linear-gradient(135deg, #d32f2f, #f44336);
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+					}
+
+					.copy-errors-btn:active {
+						transform: translateY(0);
+						box-shadow: 0 2px 6px rgba(244, 67, 54, 0.3);
+					}
+
+					.copy-warnings-btn {
+						background: linear-gradient(135deg, #ff9800, #f57c00);
+						color: white;
+						box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+					}
+
+					.copy-warnings-btn:hover {
+						background: linear-gradient(135deg, #f57c00, #ff9800);
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+					}
+
+					.copy-warnings-btn:active {
+						transform: translateY(0);
+						box-shadow: 0 2px 6px rgba(255, 152, 0, 0.3);
+					}
+
+					.copy-hints-btn {
+						background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+						color: white;
+						box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3);
+					}
+
+					.copy-hints-btn:hover {
+						background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(156, 39, 176, 0.4);
+					}
+
+					.copy-hints-btn:active {
+						transform: translateY(0);
+						box-shadow: 0 2px 6px rgba(156, 39, 176, 0.3);
+					}
+
 					.action-btn svg {
 						transition: transform 0.2s ease;
 					}
@@ -410,7 +461,25 @@ class ProblemsViewer {
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
 								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
 							</svg>
-							<span>Copiar MD</span>
+							<span>📋 Copiar Tudo MD</span>
+						</button>
+						<button id="copyErrorsBtn" class="action-btn copy-errors-btn" title="Copiar apenas erros em formato Markdown">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+							</svg>
+							<span>❌ Copiar Erros MD</span>
+						</button>
+						<button id="copyWarningsBtn" class="action-btn copy-warnings-btn" title="Copiar apenas avisos em formato Markdown">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+							</svg>
+							<span>⚠️ Copiar Avisos MD</span>
+						</button>
+						<button id="copyHintsBtn" class="action-btn copy-hints-btn" title="Copiar apenas dicas em formato Markdown">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+							</svg>
+							<span>💡 Copiar Dicas MD</span>
 						</button>
 					</div>
 					<div class="summary">
@@ -442,6 +511,21 @@ class ProblemsViewer {
 					// Botão de copiar todos
 					document.getElementById('copyAllBtn')?.addEventListener('click', () => {
 						vscode.postMessage({ command: 'copyAll' });
+					});
+
+					// Botão de copiar erros
+					document.getElementById('copyErrorsBtn')?.addEventListener('click', () => {
+						vscode.postMessage({ command: 'copyErrors' });
+					});
+
+					// Botão de copiar avisos
+					document.getElementById('copyWarningsBtn')?.addEventListener('click', () => {
+						vscode.postMessage({ command: 'copyWarnings' });
+					});
+
+					// Botão de copiar dicas
+					document.getElementById('copyHintsBtn')?.addEventListener('click', () => {
+						vscode.postMessage({ command: 'copyHints' });
 					});
 				</script>
 			</body>
@@ -528,6 +612,15 @@ class ProblemsViewer {
 						case 'copyAll':
 							this.copyAllProblems();
 							break;
+						case 'copyErrors':
+							this.copyErrorsOnly();
+							break;
+						case 'copyWarnings':
+							this.copyWarningsOnly();
+							break;
+						case 'copyHints':
+							this.copyHintsOnly();
+							break;
 					}
 				},
 			undefined,
@@ -602,7 +695,159 @@ class ProblemsViewer {
 		});
 	}
 
+	// Copiar apenas erros
+	private copyErrorsOnly() {
+		const problemsGroups = this.collectProblems();
+		let errorsText = '# ❌ Relatório de Erros - Trae\n\n';
 
+		const totalErrors = problemsGroups.reduce((sum, group) => sum + group.errorCount, 0);
+
+		if (totalErrors === 0) {
+			vscode.window.showInformationMessage('✅ Nenhum erro encontrado!');
+			return;
+		}
+
+		errorsText += `## 📊 Resumo de Erros\n\n`;
+		errorsText += `- 🔴 **Total de Erros:** ${totalErrors}\n`;
+		errorsText += `- 📁 **Arquivos com erros:** ${problemsGroups.filter(g => g.errorCount > 0).length}\n\n`;
+
+		problemsGroups.forEach((group) => {
+			if (group.errorCount === 0) return;
+
+			const fileName = group.file.split('\\').pop() || group.file;
+			errorsText += `## 📁 ${fileName}\n\n`;
+			errorsText += `**Caminho:** \`${group.file}\`\n\n`;
+			errorsText += `**Erros encontrados:** 🔴 ${group.errorCount}\n\n`;
+
+			group.problems.forEach((problem) => {
+				if (problem.severity === vscode.DiagnosticSeverity.Error) {
+					errorsText += `- [ ] ❌ ${problem.message} - **Linha ${problem.line}, Coluna ${problem.column}**`;
+					if (problem.source) {
+						errorsText += ` [${problem.source}]`;
+					}
+					if (problem.code) {
+						errorsText += ` (${problem.code})`;
+					}
+					errorsText += '\n';
+				}
+			});
+
+			errorsText += '\n';
+		});
+
+		errorsText += '---\n\n';
+		errorsText += `**📅 Gerado em:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+		errorsText += '**🔧 Extensão:** Trae Problems Viewer\n\n';
+		errorsText += '**📋 Formato:** Checklist Markdown - Apenas Erros';
+
+		vscode.env.clipboard.writeText(errorsText).then(() => {
+			vscode.window.showInformationMessage('❌ Erros copiados em formato Markdown!');
+		});
+	}
+
+	// Copiar apenas avisos
+	private copyWarningsOnly() {
+		const problemsGroups = this.collectProblems();
+		let warningsText = '# ⚠️ Relatório de Avisos - Trae\n\n';
+
+		const totalWarnings = problemsGroups.reduce((sum, group) => sum + group.warningCount, 0);
+
+		if (totalWarnings === 0) {
+			vscode.window.showInformationMessage('✅ Nenhum aviso encontrado!');
+			return;
+		}
+
+		warningsText += `## 📊 Resumo de Avisos\n\n`;
+		warningsText += `- ⚠️ **Total de Avisos:** ${totalWarnings}\n`;
+		warningsText += `- 📁 **Arquivos com avisos:** ${problemsGroups.filter(g => g.warningCount > 0).length}\n\n`;
+
+		problemsGroups.forEach((group) => {
+			if (group.warningCount === 0) return;
+
+			const fileName = group.file.split('\\').pop() || group.file;
+			warningsText += `## 📁 ${fileName}\n\n`;
+			warningsText += `**Caminho:** \`${group.file}\`\n\n`;
+			warningsText += `**Avisos encontrados:** ⚠️ ${group.warningCount}\n\n`;
+
+			group.problems.forEach((problem) => {
+				if (problem.severity === vscode.DiagnosticSeverity.Warning) {
+					warningsText += `- [ ] ⚠️ ${problem.message} - **Linha ${problem.line}, Coluna ${problem.column}**`;
+					if (problem.source) {
+						warningsText += ` [${problem.source}]`;
+					}
+					if (problem.code) {
+						warningsText += ` (${problem.code})`;
+					}
+					warningsText += '\n';
+				}
+			});
+
+			warningsText += '\n';
+		});
+
+		warningsText += '---\n\n';
+		warningsText += `**📅 Gerado em:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+		warningsText += '**🔧 Extensão:** Trae Problems Viewer\n\n';
+		warningsText += '**📋 Formato:** Checklist Markdown - Apenas Avisos';
+
+		vscode.env.clipboard.writeText(warningsText).then(() => {
+			vscode.window.showInformationMessage('⚠️ Avisos copiados em formato Markdown!');
+		});
+	}
+
+	// Copiar apenas dicas
+	private copyHintsOnly() {
+		const problemsGroups = this.collectProblems();
+		let hintsText = '# 💡 Relatório de Dicas - Trae\n\n';
+
+		const totalHints = problemsGroups.reduce((sum, group) => sum + group.hintCount, 0);
+		const totalInfo = problemsGroups.reduce((sum, group) => sum + group.infoCount, 0);
+		const totalSuggestions = totalHints + totalInfo;
+
+		if (totalSuggestions === 0) {
+			vscode.window.showInformationMessage('✅ Nenhuma dica encontrada!');
+			return;
+		}
+
+		hintsText += `## 📊 Resumo de Dicas\n\n`;
+		hintsText += `- 💡 **Total de Dicas:** ${totalHints}\n`;
+		hintsText += `- ℹ️ **Total de Informações:** ${totalInfo}\n`;
+		hintsText += `- 📁 **Arquivos com sugestões:** ${problemsGroups.filter(g => g.hintCount > 0 || g.infoCount > 0).length}\n\n`;
+
+		problemsGroups.forEach((group) => {
+			if (group.hintCount === 0 && group.infoCount === 0) return;
+
+			const fileName = group.file.split('\\').pop() || group.file;
+			hintsText += `## 📁 ${fileName}\n\n`;
+			hintsText += `**Caminho:** \`${group.file}\`\n\n`;
+			hintsText += `**Sugestões encontradas:** 💡 ${group.hintCount} | ℹ️ ${group.infoCount}\n\n`;
+
+			group.problems.forEach((problem) => {
+				if (problem.severity === vscode.DiagnosticSeverity.Hint || problem.severity === vscode.DiagnosticSeverity.Information) {
+					const icon = problem.severity === vscode.DiagnosticSeverity.Hint ? '💡' : 'ℹ️';
+					hintsText += `- [ ] ${icon} ${problem.message} - **Linha ${problem.line}, Coluna ${problem.column}**`;
+					if (problem.source) {
+						hintsText += ` [${problem.source}]`;
+					}
+					if (problem.code) {
+						hintsText += ` (${problem.code})`;
+					}
+					hintsText += '\n';
+				}
+			});
+
+			hintsText += '\n';
+		});
+
+		hintsText += '---\n\n';
+		hintsText += `**📅 Gerado em:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+		hintsText += '**🔧 Extensão:** Trae Problems Viewer\n\n';
+		hintsText += '**📋 Formato:** Checklist Markdown - Apenas Dicas e Informações';
+
+		vscode.env.clipboard.writeText(hintsText).then(() => {
+			vscode.window.showInformationMessage('💡 Dicas copiadas em formato Markdown!');
+		});
+	}
 
 }
 
